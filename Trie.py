@@ -243,7 +243,7 @@ def word_filter(trie, pattern, isClean=False, dp=None):
         
         subTrie = Trie()
         subTrie.root = trie.root.children[pattern[0]]
-        dp[(trie.root, pattern)] = [(pattern[0] + s, f)  for s,f in word_filter(subTrie, pattern[1:], True)]
+        dp[(trie.root, pattern)] = [(pattern[0] + s, f)  for s,f in word_filter(subTrie, pattern[1:], True, dp)]
         return dp[(trie.root, pattern)]
 
     # if pattern[0] is ? then traverse down all edges and recurse
@@ -255,7 +255,7 @@ def word_filter(trie, pattern, isClean=False, dp=None):
         for c in reversed(sorted(trie.root.children.keys())):
             subTrie = Trie()
             subTrie.root = trie.root.children[c]
-            ans += [(c + s, f) for s,f in word_filter(subTrie, pattern[1:], True)]
+            ans += [(c + s, f) for s,f in word_filter(subTrie, pattern[1:], True, dp)]
         dp[(trie.root, pattern)] = ans
         return dp[(trie.root, pattern)]
     
@@ -265,7 +265,7 @@ def word_filter(trie, pattern, isClean=False, dp=None):
         for node,t in trie.root:
             subTrie = Trie()
             subTrie.root = node
-            ans += [(t + s, f) for s,f in word_filter(subTrie, pattern[1:], True)]
+            ans += [(t + s, f) for s,f in word_filter(subTrie, pattern[1:], True, dp)]
         dp[(trie.root, pattern)] = ans
         return dp[(trie.root, pattern)]
         
